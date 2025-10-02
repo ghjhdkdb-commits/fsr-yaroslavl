@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ФСР - Федеральная Служба Ремонта | Ярославль</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a0f1c;
+            --primary: #1a243d;
+            --accent: #ff4d00;
+            --accent-glow: #ff7b33;
+            --accent-light: #ff8c42;
+            --text: #ffffff;
+            --text-light: #b8c2cc;
+            --white: #ffffff;
+            --dark-bg: #0a0f1c;
+            --card-bg: rgba(26, 36, 61, 0.7);
+            --gradient-primary: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            --shadow-glow: 0 0 20px rgba(255, 77, 0, 0.5);
+            --shadow-glow-strong: 0 0 30px rgba(255, 77, 0, 0.8);
+            --border-radius: 16px;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        html { 
+            scroll-behavior: smooth; 
+            scroll-padding-top: 80px; 
+        }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            line-height: 1.7; 
+            color: var(--text); 
+            background-color: var(--dark-bg);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 77, 0, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.05) 0%, transparent 20%);
+        }
+
+        h1, h2, h3, .logo { 
+            font-family: 'Playfair Display', serif; 
+            font-weight: 900; 
+        }
+
+        /* Анимированный фон с частицами */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Шапка с неоновым свечением и анимацией */
+        header {
+            background: rgba(10, 15, 28, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border-bottom: 1px solid rgba(255, 77, 0, 0.2);
+        }
+        
+        header.scrolled { 
+            padding: 0.7rem 0; 
+            background: rgba(10, 15, 28, 0.98);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            text-shadow: 0 0 10px rgba(255, 77, 0, 0.3);
+            animation: logoGlow 3s ease-in-out infinite alternate;
+            text-align: center;
+            width: 100%;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        .logo:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        @keyframes logoGlow {
+            0% { text-shadow: 0 0 10px rgba(255, 77, 0, 0.3); }
+            100% { text-shadow: 0 0 20px rgba(255, 77, 0, 0.7), 0 0 30px rgba(255, 77, 0, 0.4); }
+        }
+
+        /* Главный баннер */
+        .hero {
+            background: 
+                linear-gradient(rgba(10, 15, 28, 0.85), rgba(26, 36, 61, 0.9)),
+                url('https://images.unsplash.com/photo-1558618067-2d6d6cd8d0b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+            padding: 12rem 1rem 8rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-accent);
+            opacity: 0.05;
+            z-index: 1;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 6vw, 5.5rem);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 0.5s forwards;
+            line-height: 1.1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+        }
+
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 0.8s forwards;
+            font-weight: 300;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--text-light);
+        }
+
+        /* Анимированная кнопка с неоновым эффектом */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gradient-accent);
+            color: var(--white);
+            padding: clamp(16px, 4vw, 22px) clamp(30px, 6vw, 45px);
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 1.1s forwards;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+            z-index: -1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--shadow-glow-strong);
+        }
+
+        .cta-button:hover::before { 
+            left: 100%; 
+        }
+
+        .cta-button:active { 
+            transform: translateY(-4px) scale(1.02); 
+        }
+
+        .cta-button.pulse {
+            animation: pulse 2s infinite, fadeInUp 1s ease 1.1s forwards;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 77, 0, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 77, 0, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 77, 0, 0);
+            }
+        }
+
+        /* Анимации появления при скролле */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Секции */
+        section {
+            padding: clamp(3rem, 8vw, 6rem) 1rem;
+            position: relative;
+        }
+        
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--white);
+            font-size: clamp(2rem, 5vw, 3rem);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Карточки услуг с 3D-эффектом */
+        .services {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            flex: 1 1 min(350px, 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 77, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), var(--shadow-glow);
+            border-color: rgba(255, 77, 0, 0.3);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            padding: 20px;
+            border-radius: 50%;
+            background: rgba(255, 77, 0, 0.1);
+            transition: all 0.4s ease;
+            text-shadow: 0 0 10px rgba(255, 77, 0, 0.3);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.2) rotate(10deg);
+            background: rgba(255, 77, 0, 0.2);
+            box-shadow: 0 0 20px rgba(255, 77, 0, 0.4);
+        }
+
+        .service-card h3 {
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Счетчики статистики */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1 1 min(200px, 100%);
+        }
+
+        .stat-number {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 77, 0, 0.3);
+        }
+
+        .stat-label {
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Отзывы клиентов - улучшенная версия */
+        .testimonials-section {
+            padding: clamp(3rem, 8vw, 6rem) 1rem;
+        }
+
+        .testimonials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            flex: 1 1 min(300px, 100%);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 77, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), var(--shadow-glow);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -10px;
+            font-size: 3rem;
+            color: var(--accent);
+            opacity: 0.7;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .author-info h4 {
+            color: var(--white);
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .author-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+
+        /* Контакты и адреса */
+        .contacts-section {
+            background: rgba(10, 15, 28, 0.7);
+            padding: clamp(3rem, 8vw, 6rem) 1rem;
+        }
+
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 77, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), var(--shadow-glow);
+        }
+
+        .contact-card h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-info {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Премиальная форма заявки */
+        #contact-form {
+            background: var(--card-bg);
+            padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+            border-radius: var(--border-radius);
+            max-width: 700px;
+            margin: 2rem auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 77, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        #contact-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-accent);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 18px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.1);
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Сообщения об успехе/ошибке */
+        .form-message {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .form-message.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .form-message.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+            color: #F44336;
+            display: block;
+        }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 10rem 1rem 5rem;
+                background-attachment: scroll;
+            }
+            
+            .hero h1 {
+                font-size: clamp(2rem, 8vw, 2.5rem);
+            }
+            
+            .hero p {
+                font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+            }
+            
+            .cta-button {
+                padding: 18px 30px;
+                font-size: 1.1rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            section {
+                padding: 4rem 1rem;
+            }
+            
+            #contact-form {
+                padding: 2.5rem 1.5rem;
+            }
+            
+            h2 {
+                font-size: clamp(1.8rem, 6vw, 2.2rem);
+            }
+            
+            .service-card {
+                flex: 1 1 100%;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .testimonials {
+                flex-direction: column;
+            }
+
+            .contacts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-card {
+                padding: 1.5rem;
+            }
+
+            .contact-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Адаптивность для планшетов */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .service-card {
+                flex: 1 1 calc(50% - 2.5rem);
+            }
+        }
+
+        /* Анимация появления при скролле для всех элементов */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Стили для локации */
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 77, 0, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(255, 77, 0, 0.2);
+        }
+
+        /* Улучшения для iOS */
+        input, textarea, select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        /* Улучшения для касаний на мобильных */
+        button, .cta-button, .service-card {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body>
+    <!-- Анимированный фон с частицами -->
+    <div id="particles-js"></div>
+
+    <!-- Шапка -->
+    <header id="mainHeader">
+        <div class="nav-container">
+            <div class="logo">Федеральная Служба Ремонта</div>
+        </div>
+    </header>
+
+    <!-- Главный баннер -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>ПРОФЕССИОНАЛЬНЫЙ РЕМОНТ ТЕХНИКИ В ЯРОСЛАВЛЕ</h1>
+            <p>Ярославские специалисты с многолетним опытом. Бесплатная диагностика и гарантия 3 года на все работы. Работаем по всему Ярославлю и области.</p>
+            <button class="cta-button pulse" onclick="scrollToForm()">
+                <i class="fas fa-bolt"></i> ВЫЗВАТЬ МАСТЕРА
+            </button>
+        </div>
+    </section>
+
+    <!-- Статистика -->
+    <section>
+        <div class="section-container">
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-count="15000">0</div>
+                    <div class="stat-label">Выполненных заказов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="98">0</div>
+                    <div class="stat-label">Процент успешных ремонтов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="60">0</div>
+                    <div class="stat-label">Минут среднее время выезда</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="15">0</div>
+                    <div class="stat-label">Лет на рынке Ярославля</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section id="services">
+        <div class="section-container">
+            <h2>НАШИ УСЛУГИ В ЯРОСЛАВЛЕ</h2>
+            <div class="services">
+                <div class="service-card fade-in delay-1">
+                    <div class="service-icon"><i class="fas fa-tint"></i></div>
+                    <h3>СТИРАЛЬНЫЕ МАШИНЫ</h3>
+                    <p>Ремонт стиральных машин всех марок в Ярославле. Замена подшипников, насосов, электронных модулей. Гарантия 3 года.</p>
+                    <div class="location-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Работаем по всему Ярославлю
+                    </div>
+                </div>
+                <div class="service-card fade-in delay-2">
+                    <div class="service-icon"><i class="fas fa-snowflake"></i></div>
+                    <h3>ХОЛОДИЛЬНИКИ</h3>
+                    <p>Устранение утечек фреона, замена компрессоров, ремонт систем No Frost. Работаем с отечественными и зарубежными марками.</p>
+                    <div class="location-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Ярославль и область
+                    </div>
+                </div>
+                <div class="service-card fade-in delay-3">
+                    <div class="service-icon"><i class="fas fa-utensils"></i></div>
+                    <h3>ПОСУДОМОЕЧНЫЕ МАШИНЫ</h3>
+                    <p>Ремонт насосов, блоков управления, замена нагревательных элементов. Используем оригинальные запчасти.</p>
+                    <div class="location-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Ярославль
+                    </div>
+                </div>
+                <div class="service-card fade-in delay-4">
+                    <div class="service-icon"><i class="fas fa-fire"></i></div>
+                    <h3>ДУХОВЫЕ ШКАФЫ И ПЛИТЫ</h3>
+                    <p>Замена ТЭНов, ремонт электроники, газовых блоков. Обеспечиваем полную безопасность эксплуатации.</p>
+                    <div class="location-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Ярославль и пригород
+                    </div>
+                </div>
+                <div class="service-card fade-in delay-1">
+                    <div class="service-icon"><i class="fas fa-coffee"></i></div>
+                    <h3>КОФЕМАШИНЫ</h3>
+                    <p>Профессиональная чистка, ремонт помп, замена жерновов. Вернем безупречный вкус вашему кофе.</p>
+                    <div class="location-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Ярославль
+                    </div>
+                </div>
+                <div class="service-card fade-in delay-2">
+                    <div class="service-icon"><i class="fas fa-wind"></i></div>
+                    <h3>КОНДИЦИОНЕРЫ</h3>
+                    <p>Заправка фреоном, чистка блоков, замена компрессоров. Обеспечим комфортный микроклимат в вашем доме.</p>
+                    <div class="location-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Ярославль и область
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы -->
+    <section class="testimonials-section">
+        <div class="section-container">
+            <h2>ОТЗЫВЫ ЖИТЕЛЕЙ ЯРОСЛАВЛЯ</h2>
+            <div class="testimonials">
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-text">
+                        Вызывал мастера для ремонта холодильника в Кировском районе. Приехал быстро, все починил качественно. Цены адекватные, без накруток. Рекомендую!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ДП</div>
+                        <div class="author-info">
+                            <h4>Дмитрий Петров</h4>
+                            <div class="author-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Ярославль, Кировский район
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-text">
+                        Сломалась стиральная машина в Красноперекопском районе, думала, придется покупать новую. Мастер из ФСР приехал в тот же день и отремонтировал. Отличная работа!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ОС</div>
+                        <div class="author-info">
+                            <h4>Ольга Сидорова</h4>
+                            <div class="author-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Ярославль, Красноперекопский район
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-text">
+                        Пользуюсь услугами ФСР уже несколько лет из Фрунзенского района. Всегда быстро и качественно. Недавно чинили посудомоечную машину - работает как новая.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">АК</div>
+                        <div class="author-info">
+                            <h4>Анна Козлова</h4>
+                            <div class="author-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Ярославль, Фрунзенский район
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-text">
+                        Живу в Заволжском районе, вызывал мастеров для ремонта кондиционера. Работали аккуратно, не запачкали ничего. Цены ниже, чем у конкурентов. Буду рекомендовать!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">СВ</div>
+                        <div class="author-info">
+                            <h4>Сергей Васильев</h4>
+                            <div class="author-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Ярославль, Заволжский район
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-text">
+                        Обратился в сервис из Дзержинского района для ремонта газовой плиты. Мастер приехал через 40 минут, профессионально все объяснил и починил. Спасибо!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">МК</div>
+                        <div class="author-info">
+                            <h4>Михаил Кудрявцев</h4>
+                            <div class="author-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Ярославль, Дзержинский район
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-text">
+                        Заказывала ремонт кофемашины в Ленинском районе. Очень довольна сервисом - вежливый мастер, качественная работа, гарантия. Теперь только к вам!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ЕЗ</div>
+                        <div class="author-info">
+                            <h4>Елена Захарова</h4>
+                            <div class="author-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Ярославль, Ленинский район
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты и адреса -->
+    <section class="contacts-section">
+        <div class="section-container">
+            <h2>НАШИ КОНТАКТЫ В ЯРОСЛАВЛЕ</h2>
+            <div class="contacts-grid">
+                <div class="contact-card scroll-animate">
+                    <h3><i class="fas fa-map-marker-alt"></i> Главный офис</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-location-dot"></i> Ярославль, ул. Свободы, 2/40</p>
+                        <p><i class="fas fa-phone"></i> +7 (4852) 73-92-22</p>
+                        <p><i class="fas fa-clock"></i> Пн-Вс: 8:00-22:00</p>
+                        <p><i class="fas fa-subway"></i> Район: Кировский</p>
+                    </div>
+                </div>
+                <div class="contact-card scroll-animate">
+                    <h3><i class="fas fa-tools"></i> Сервисный центр</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-location-dot"></i> Ярославль, пр-т Ленина, 25</p>
+                        <p><i class="fas fa-phone"></i> +7 (4852) 55-34-78</p>
+                        <p><i class="fas fa-clock"></i> Пн-Сб: 9:00-20:00</p>
+                        <p><i class="fas fa-subway"></i> Район: Ленинский</p>
+                    </div>
+                </div>
+                <div class="contact-card scroll-animate">
+                    <h3><i class="fas fa-warehouse"></i> Склад запчастей</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-location-dot"></i> Ярославль, ул. Советская, 17</p>
+                        <p><i class="fas fa-phone"></i> +7 (4852) 42-65-89</p>
+                        <p><i class="fas fa-clock"></i> Пн-Пт: 10:00-18:00</p>
+                        <p><i class="fas fa-subway"></i> Район: Фрунзенский</p>
+                    </div>
+                </div>
+                <div class="contact-card scroll-animate">
+                    <h3><i class="fas fa-headset"></i> Кол-центр</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> +7 (4852) 33-55-77</p>
+                        <p><i class="fas fa-clock"></i> Круглосуточно</p>
+                        <p><i class="fas fa-envelope"></i> info@fsr-yaroslavl.ru</p>
+                        <p><i class="fas fa-map"></i> Обслуживаем весь Ярославль</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма заявки -->
+    <section id="contact">
+        <div class="section-container">
+            <h2>ОСТАВЬТЕ ЗАЯВКУ НА БЕСПЛАТНУЮ ДИАГНОСТИКУ</h2>
+            <form id="contact-form" class="fade-in" action="https://formspree.io/f/xnngvgaz" method="POST">
+                <div class="form-message" id="form-message"></div>
+                <div class="form-group">
+                    <label for="name">ВАШЕ ИМЯ:</label>
+                    <input type="text" id="name" name="name" required placeholder="Иван Иванов">
+                </div>
+                <div class="form-group">
+                    <label for="phone">ВАШ ТЕЛЕФОН:</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+7 (XXX) XXX-XX-XX">
+                </div>
+                <div class="form-group">
+                    <label for="district">РАЙОН ЯРОСЛАВЛЯ:</label>
+                    <select id="district" name="district" required>
+                        <option value="">Выберите район</option>
+                        <option value="kirovsky">Кировский район</option>
+                        <option value="leninsky">Ленинский район</option>
+                        <option value="dzerginsky">Дзержинский район</option>
+                        <option value="frunzensky">Фрунзенский район</option>
+                        <option value="zavolzhsky">Заволжский район</option>
+                        <option value="krasnoperekopsky">Красноперекопский район</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="address">АДРЕС (УЛИЦА И ДОМ):</label>
+                    <input type="text" id="address" name="address" required placeholder="ул. Примерная, 15">
+                </div>
+                <div class="form-group">
+                    <label for="problem">ОПИШИТЕ ПРОБЛЕМУ:</label>
+                    <textarea id="problem" name="problem" rows="4" placeholder="Например: стиральная машина издает громкий шум при отжиме, не набирает воду..."></textarea>
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> ВЫЗВАТЬ МАСТЕРА В ЯРОСЛАВЛЕ
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer style="background: var(--primary-dark); color: var(--white); text-align: center; padding: 4rem 0; margin-top: 2rem; border-top: 1px solid rgba(255, 77, 0, 0.2);">
+        <div class="section-container">
+            <p style="font-size: clamp(1rem, 3vw, 1.2rem); margin-bottom: 1rem;">КОНТАКТЫ: +7 (4852) 33-55-77 | ЯРОСЛАВЛЬ, УЛ. СВОБОДЫ, 2/40</p>
+            <p style="margin-bottom: 1rem; color: var(--text-light);">РЕЖИМ РАБОТЫ: ПН-ВС С 8:00 ДО 22:00 | ЭКСТРЕННЫЕ ВЫЕЗДЫ 24/7</p>
+            <p style="color: var(--accent); font-weight: 700;">© ФЕДЕРАЛЬНАЯ СЛУЖБА РЕМОНТА (ФСР), ЯРОСЛАВЛЬ 2008-2024</p>
+        </div>
+    </footer>
+
+    <!-- Подключаем библиотеку частиц -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Инициализация частиц
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ff4d00" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#ff4d00",
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+        });
+
+        // Плавная прокрутка к форме
+        function scrollToForm() {
+            document.getElementById('contact').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Анимация появления элементов при скролле
+        const fadeElements = document.querySelectorAll('.fade-in, .scroll-animate');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { 
+            threshold: 0.1 
+        });
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Изменение шапки при скролле
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Анимация счетчиков
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 200;
+            
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-count');
+                const count = +counter.innerText;
+                const increment = target / speed;
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(animateCounters, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        }
+
+        // Запуск анимации счетчиков при попадании в область видимости
+        const statsSection = document.querySelector('.stats');
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Обработка формы с Formspree
+        document.getElementById('contact-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ОТПРАВКА...';
+            submitButton.disabled = true;
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                const messageElement = document.getElementById('form-message');
+                
+                if (response.ok) {
+                    messageElement.textContent = 'СПАСИБО! ВАША ЗАЯВКА ПРИНЯТА. МЫ СВЯЖЕМСЯ С ВАМИ В ТЕЧЕНИЕ 5 МИНУТ.';
+                    messageElement.className = 'form-message success';
+                    this.reset();
+                } else {
+                    messageElement.textContent = 'ПРОИЗОШЛА ОШИБКА ПРИ ОТПРАВКЕ. ПОЖАЛУЙСТА, ПОПРОБУЙТЕ ЕЩЕ РАЗ.';
+                    messageElement.className = 'form-message error';
+                }
+            } catch (error) {
+                const messageElement = document.getElementById('form-message');
+                messageElement.textContent = 'ПРОИЗОШЛА ОШИБКА ПРИ ОТПРАВКЕ. ПОЖАЛУЙСТА, ПОПРОБУЙТЕ ЕЩЕ РАЗ.';
+                messageElement.className = 'form-message error';
+            } finally {
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            }
+        });
+
+        // Добавляем эффект "пульсации" для кнопки каждые 5 секунд
+        setInterval(() => {
+            const ctaButton = document.querySelector('.cta-button');
+            ctaButton.classList.add('pulse');
+            setTimeout(() => {
+                ctaButton.classList.remove('pulse');
+            }, 2000);
+        }, 7000);
+    </script>
+</body>
+</html>
